@@ -93,3 +93,5 @@ myvenv/
 .gitignore
 *.png
 .idea/
+*.xml
+*.iml
