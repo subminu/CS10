@@ -169,6 +169,7 @@ def animate():
 # initialize everything
 pygame.init()
 screen = pygame.display.set_mode([640, 640])
+pygame.display.set_caption("Thanos VS IronMan")
 clock = pygame.time.Clock()
 speed = [0, 10]
 obstacles = pygame.sprite.Group()  # group of obstacle objects
@@ -183,8 +184,8 @@ running = True
 while running:
     clock.tick(30)
     for event in pygame.event.get():
-        if event.type == pygame.QUIT: running = False
-
+        if event.type == pygame.QUIT:
+            running = False
         if event.type == pygame.KEYDOWN:  # check for key presses
             if event.key == pygame.K_LEFT:  # left arrow turns left
                 speed = skier.turn(-1)
