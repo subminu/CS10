@@ -92,4 +92,4 @@ Skier-Game/
 myvenv/
 .gitignore
 *.png
-.idea
+.idea/
