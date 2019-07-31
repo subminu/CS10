@@ -24,7 +24,7 @@ def load_images():
     for filename in os.listdir(folder):
         if any([filename.endswith(x) for x in ['.png']]):
             img_name = os.path.join(filename)
-            if not filename.startswith(('skier_crash.png', 'skier_flag.png', 'skier_tree.png')):
+            if not filename.startswith(('skier_crash.png', 'skier_flag.png', 'meteoroid.png')):
                 image_names.append(img_name)
 
     return image_names
@@ -98,6 +98,7 @@ class SkierClass(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = [320, 540]
         self.angle = 0
+        self.heart = 3
 
     def turn(self, direction):
         # load new image and change speed when the skier turns
@@ -148,9 +149,9 @@ def create_map():
         location = [col * 64 + 32 , row * 64 + 32 - 640]  # center x, y for obstacle
         if not (location in locations):  # prevent 2 obstacles in the same place
             locations.append(location)
-            type = random.choice(["tree", "flag"])
-            if type == "tree":
-                img = "skier_tree.png"
+            type = random.choice(["meteoroid", "flag"])
+            if type == "meteoroid":
+                img = "meteoroid.png"
             elif type == "flag":
                 img = "skier_flag.png"
             obstacle = ObstacleClass(img, location, type)
@@ -159,7 +160,7 @@ def create_map():
 
 # redraw the screen, including all sprites
 def animate():
-    screen.fill([255, 255, 255])
+    screen.fill([0, 0, 0])
     obstacles.draw(screen)
     screen.blit(skier.image, skier.rect)
     screen.blit(score_text, [10, 10])
@@ -183,6 +184,8 @@ font = pygame.font.Font(None, 50)
 running = True
 while running:
     clock.tick(30)
+    if skier.heart<=0:
+        running=False
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -202,8 +205,8 @@ while running:
     # check for hitting trees or getting flags
     hit = pygame.sprite.spritecollide(skier, obstacles, False)
     if hit:
-        if hit[0].type == "tree" and not hit[0].passed:  # crashed into tree
-            points = points - 100
+        if hit[0].type == "meteoroid" and not hit[0].passed:  # crashed into tree
+            points = points - 50
             skier.image = pygame.image.load("skier_crash.png")  # crash image
             animate()
             pygame.time.delay(1000)
@@ -211,12 +214,13 @@ while running:
             skier.angle = 0
             speed = [0, 6]
             hit[0].passed = True
+            skier.heart -=1
         elif hit[0].type == "flag" and not hit[0].passed:  # got a flag
             points += 10
             hit[0].kill()  # remove the flag
 
     obstacles.update()
-    score_text = font.render("Score: " + str(points), 1, (0, 0, 0))
+    score_text = font.render("Score: " + str(points), 1, (255, 255, 255))
     animate()
 
 pygame.quit()
