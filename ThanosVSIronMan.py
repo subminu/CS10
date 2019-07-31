@@ -24,14 +24,14 @@ def load_images():
     for filename in os.listdir(folder):
         if any([filename.endswith(x) for x in ['.png']]):
             img_name = os.path.join(filename)
-            if not filename.startswith(('skier_crash.png', 'skier_flag.png', 'meteoroid.png')):
+            if not filename.startswith(('IronMan_crash.png', 'IronMan_nuclear.png', 'meteoroid.png')):
                 image_names.append(img_name)
 
     return image_names
 
 
 def sort_images():
-    sorted_images = ["skier_down.png", "skier_right1.png", "skier_right2.png", "skier_left2.png", "skier_left1.png"]
+    sorted_images = ["IronMan_up.png", "IronMan_right1.png", "IronMan_right2.png", "IronMan_left2.png", "IronMan_left1.png"]
     '''unsorted_images = load_images()
     order_map = {}
     for pos, item in enumerate(image_order):
@@ -94,7 +94,7 @@ print(end - start)
 class SkierClass(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("skier_down.png")
+        self.image = pygame.image.load("IronMan_up.png")
         self.rect = self.image.get_rect()
         self.rect.center = [320, 540]
         self.angle = 0
@@ -149,11 +149,11 @@ def create_map():
         location = [col * 64 + 32 , row * 64 + 32 - 640]  # center x, y for obstacle
         if not (location in locations):  # prevent 2 obstacles in the same place
             locations.append(location)
-            type = random.choice(["meteoroid", "flag"])
+            type = random.choice(["meteoroid", "power"])
             if type == "meteoroid":
                 img = "meteoroid.png"
-            elif type == "flag":
-                img = "skier_flag.png"
+            elif type == "power":
+                img = "IronMan_nuclear.png"
             obstacle = ObstacleClass(img, location, type)
             obstacles.add(obstacle)
 
@@ -207,15 +207,15 @@ while running:
     if hit:
         if hit[0].type == "meteoroid" and not hit[0].passed:  # crashed into tree
             points = points - 50
-            skier.image = pygame.image.load("skier_crash.png")  # crash image
+            skier.image = pygame.image.load("IronMan_crash.png")  # crash image
             animate()
             pygame.time.delay(1000)
-            skier.image = pygame.image.load("skier_down.png")  # resume skiing
+            skier.image = pygame.image.load("IronMan_up.png")  # resume skiing
             skier.angle = 0
             speed = [0, 6]
             hit[0].passed = True
             skier.heart -=1
-        elif hit[0].type == "flag" and not hit[0].passed:  # got a flag
+        elif hit[0].type == "power" and not hit[0].passed:  # got a flag
             points += 10
             hit[0].kill()  # remove the flag
 
