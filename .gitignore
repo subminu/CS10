@@ -92,6 +92,5 @@ Skier-Game/
 myvenv/
 .gitignore
 .idea/
-*.png
 *.xml
 *.iml
