@@ -107,7 +107,7 @@ while running:
     IronMan.move(speed)  # move the IronMan (left or right)
     map_position -= speed[1]  # scroll the objects
 
-    # create a new block of objects at the bottom
+    # create a new block of objects at the top
     if map_position <= -640:
         create_map()
         map_position = 0
