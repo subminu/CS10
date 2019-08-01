@@ -113,7 +113,7 @@ while running:
         create_map()
         map_position = 0
 
-    # check for hitting meteoroids or getting nuclears
+    # check for hitting meteoroids or getting power
     hit = pygame.sprite.spritecollide(IronMan, obstacles, False)
     if hit:
         if hit[0].type == "meteoroid" and not hit[0].passed:  # crashed into meteoroids
@@ -126,9 +126,9 @@ while running:
             speed = [0, 10]
             hit[0].passed = True
             IronMan.heart -=1
-        elif hit[0].type == "power" and not hit[0].passed:  # got a nuclear
+        elif hit[0].type == "power" and not hit[0].passed:  # got a power
             points += 10
-            hit[0].kill()  # remove the nuclear
+            hit[0].kill()  # remove the power
 
     obstacles.update()
     score_text = font.render("Score: " + str(points), 1, (255, 255, 255))
