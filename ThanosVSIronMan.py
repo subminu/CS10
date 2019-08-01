@@ -29,8 +29,8 @@ class IronManClass(pygame.sprite.Sprite):
         if self.rect.centerx > 620: self.rect.centerx = 620
 
 
-# class for obstacle sprites (meteoroids and power)
-class ObstacleClass(pygame.sprite.Sprite):
+# class for object sprites (meteoroids and power)
+class ObjectClass(pygame.sprite.Sprite):
     def __init__(self, image_file, location, type):
         pygame.sprite.Sprite.__init__(self)
         self.image_file = image_file
@@ -47,30 +47,30 @@ class ObstacleClass(pygame.sprite.Sprite):
             self.kill()
 
 
-# create one "screen" of obstacles: 640 x 640
+# create one "screen" of object: 640 x 640
 # use "blocks" of 64 x 64 pixels, so objects aren't too close together
 def create_map():
-    global obstacles
+    global objects
     locations = []
-    for _i in range(10):  # 10 obstacles per screen
+    for _i in range(10):  # 10 objects per screen
         row = random.randint(0, 9)
         col = random.randint(0, 9)
-        location = [col * 64 + 32 , row * 64 + 32 - 640]  # center x, y for obstacle
-        if not (location in locations):  # prevent 2 obstacles in the same place
+        location = [col * 64 + 32 , row * 64 + 32 - 640]  # center x, y for objects
+        if not (location in locations):  # prevent 2 objects in the same place
             locations.append(location)
             type = random.choice(["meteoroid", "meteoroid", "power"]) # Make more meteoroids displayed on screen
             if type == "meteoroid":
                 img = "meteoroid.png"
             elif type == "power":
                 img = "IronMan_nuclear.png"
-            obstacle = ObstacleClass(img, location, type)
-            obstacles.add(obstacle)
+            object = ObjectClass(img, location, type)
+            objects.add(object)
 
 
 # redraw the screen, including all sprites
 def animate():
     screen.fill([0, 0, 0])
-    obstacles.draw(screen)
+    objects.draw(screen)
     screen.blit(IronMan.image, IronMan.rect)
     screen.blit(score_text, [10, 10])
     pygame.display.flip()
@@ -83,11 +83,11 @@ pygame.display.set_caption("Thanos VS IronMan")
 IronMan_images = ["IronMan_up.png", "IronMan_right1.png", "IronMan_right2.png", "IronMan_left2.png", "IronMan_left1.png"]
 clock = pygame.time.Clock()
 speed = [0, 10]
-obstacles = pygame.sprite.Group()  # group of obstacle objects
+objects = pygame.sprite.Group()  # group of objects
 IronMan = IronManClass()
 map_position = 0
 points = 0
-create_map()  # create one screen full of obstacles
+create_map()  # create one screen full of objects
 font = pygame.font.Font(None, 50)
 
 # main Pygame event loop
@@ -105,15 +105,15 @@ while running:
             elif event.key == pygame.K_RIGHT:  # right arrow turns right
                 speed = IronMan.turn(1)
     IronMan.move(speed)  # move the IronMan (left or right)
-    map_position -= speed[1]  # scroll the obstacles
+    map_position -= speed[1]  # scroll the objects
 
-    # create a new block of obstacles at the bottom
+    # create a new block of objects at the bottom
     if map_position <= -640:
         create_map()
         map_position = 0
 
     # check for hitting meteoroids or getting power
-    hit = pygame.sprite.spritecollide(IronMan, obstacles, False)
+    hit = pygame.sprite.spritecollide(IronMan, objects, False)
     if hit:
         if hit[0].type == "meteoroid" and not hit[0].passed:  # crashed into meteoroids
             points = points - 50
@@ -129,7 +129,7 @@ while running:
             points += 10
             hit[0].kill()  # remove the power
 
-    obstacles.update()
+    objects.update()
     score_text = font.render("Score: " + str(points), 1, (255, 255, 255))
     animate()
 
