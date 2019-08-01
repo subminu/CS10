@@ -29,7 +29,7 @@ class IronManClass(pygame.sprite.Sprite):
         if self.rect.centerx > 620: self.rect.centerx = 620
 
 
-# class for obstacle sprites (meteoroids and nuclears)
+# class for obstacle sprites (meteoroids and power)
 class ObstacleClass(pygame.sprite.Sprite):
     def __init__(self, image_file, location, type):
         pygame.sprite.Sprite.__init__(self)
