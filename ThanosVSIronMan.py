@@ -1,5 +1,4 @@
-import pygame, sys, os, random
-import time
+import pygame, random
 
 # class for the IronMan sprite
 class IronManClass(pygame.sprite.Sprite):
