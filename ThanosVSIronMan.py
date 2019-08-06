@@ -5,10 +5,15 @@ class IronManClass(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load("IronMan_up.png")
+        self.state = pygame.image.load("IronMan_state.png")
+        self.thanos = pygame.image.load("Thanos.png")
+        self.face = self.state.get_rect()
         self.rect = self.image.get_rect()
+        self.face.center = [15,627.5]
         self.rect.center = [320, 540]
         self.angle = 0
         self.heart = 3
+
 
     def turn(self, direction):
         # load new image and change speed when the IronMan turns
@@ -28,6 +33,10 @@ class IronManClass(pygame.sprite.Sprite):
         if self.rect.centerx < 20:  self.rect.centerx = 20
         if self.rect.centerx > 620: self.rect.centerx = 620
 
+    def proceed(self, speed):
+        self.face[0] += speed
+        if self.face[0] >= 600:
+            self.thanos = pygame.image.load("Thanos_lose.png")
 
 # class for object sprites (meteoroids and power)
 class ObjectClass(pygame.sprite.Sprite):
@@ -66,13 +75,16 @@ def create_map():
             object = ObjectClass(img, location, type)
             objects.add(object)
 
-
 # redraw the screen, including all sprites
-def animate():
+def animate(scroll=False):
     screen.fill([0, 0, 0])
     objects.draw(screen)
     screen.blit(IronMan.image, IronMan.rect)
     screen.blit(score_text, [10, 10])
+    screen.blit(IronMan.thanos,[600,590])
+    if scroll:
+        IronMan.proceed(4)
+    screen.blit(IronMan.state, IronMan.face)
     pygame.display.flip()
 
 
@@ -89,13 +101,14 @@ map_position = 0
 points = 0
 create_map()  # create one screen full of objects
 font = pygame.font.Font(None, 50)
+scroll = 0
 
 # main Pygame event loop
 running = True
 while running:
     clock.tick(30)
-    if IronMan.heart<=0:
-        running=False
+    if IronMan.heart <= 0 :
+        running = False
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -131,6 +144,13 @@ while running:
 
     objects.update()
     score_text = font.render("Score: " + str(points), 1, (255, 255, 255))
-    animate()
+    if scroll == 5:
+        animate(True)
+        scroll = 0
+    else:
+        animate()
+        scroll += 1
+
+
 
 pygame.quit()
