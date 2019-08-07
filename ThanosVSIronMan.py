@@ -159,7 +159,7 @@ while running:
     hit = pygame.sprite.spritecollide(IronMan, objects, False)
     if hit:
         if hit[0].type == "meteoroid" and not hit[0].passed:  # crashed into meteoroids
-            points = points - 50
+            points -= 50
             IronMan.image = pygame.image.load("IronMan_crash.png")  # crash image
             animate()
             pygame.time.delay(1000)
@@ -167,10 +167,14 @@ while running:
             IronMan.angle = 0
             speed = [0, 10]
             hit[0].passed = True
-            IronMan.heart -=1
+            if points >= 90 :
+                points -= 50
+            else:
+                IronMan.heart -= 1
             hit[0].kill()
         elif hit[0].type == "power" and not hit[0].passed:  # got a power
             if IronMan.heart < 3 and points >= 90:
+                print("worked")
                 points -= 100
                 IronMan.heart += 1
             points += 10
