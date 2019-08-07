@@ -91,6 +91,8 @@ def animate(scroll=False):
     screen.blit(IronMan.image, IronMan.rect)
     screen.blit(score_text, [10, 10])
     screen.blit(Thanos,[600,590])
+    if Thanos == Thanos_images[-1]:
+        screen.blit(Thanos,[300,230])
     if scroll:
         IronMan.proceed(1)
     IronMan.show_stamina()
