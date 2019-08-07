@@ -41,11 +41,6 @@ class IronManClass(pygame.sprite.Sprite):
 
     def process(self, speed):
         self.face[0] += speed
-        if self.face[0] >= 600:
-            global Thanos
-            Thanos = Thanos_images[-1]
-            animate()
-            show_game_over('Win')
 
 # class for object sprites (meteoroids and power)
 class ObjectClass(pygame.sprite.Sprite):
@@ -152,9 +147,16 @@ while not running:
                 running = True
 while running:
     clock.tick(30)
-    if IronMan.heart <= 0 :
+    if IronMan.heart <= 0:
         running = False
+        score_text = font.render("Score: " + str(points), 1, (0, 0, 0))
+        animate()
         show_game_over("Lose")
+    elif IronMan.face[0] >= 600:
+            Thanos = Thanos_images[-1]
+            score_text = font.render("Score: " + str(points), 1, (0, 0, 0))
+            animate()
+            show_game_over('Win')
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
