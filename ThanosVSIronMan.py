@@ -6,17 +6,20 @@ class IronManClass(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load("IronMan_up.png")
         self.state = pygame.image.load("IronMan_state.png")
+        self.image_heart = pygame.image.load("heart.png")
         self.face = self.state.get_rect()
         self.rect = self.image.get_rect()
+        self.rect_heart = self.image_heart.get_rect()
         self.face.center = [15,627.5]
         self.rect.center = [320, 540]
         self.angle = 0
         self.heart = 3
 
-    def stamina(self, demage=False):
+    def show_stamina(self, demage=False):
         if demage:
             self.heart -= 1
-
+        for i in range(self.heart):
+            screen.blit(IronMan.image_heart,[600-40*i,15])
 
     def turn(self, direction):
         # load new image and change speed when the IronMan turns
@@ -88,6 +91,7 @@ def animate(scroll=False):
     screen.blit(Thanos,[600,590])
     if scroll:
         IronMan.proceed(5)
+    IronMan.show_stamina()
     screen.blit(IronMan.state, IronMan.face)
     pygame.display.flip()
 
@@ -104,6 +108,7 @@ Thanos = Thanos_images[0]
 speed = [0, 10]
 objects = pygame.sprite.Group()  # group of objects
 IronMan = IronManClass()
+IronMan.show_stamina()
 map_position = 0
 points = 0
 create_map()  # create one screen full of objects
@@ -144,9 +149,14 @@ while running:
             speed = [0, 10]
             hit[0].passed = True
             IronMan.heart -=1
+            hit[0].kill()
         elif hit[0].type == "power" and not hit[0].passed:  # got a power
+            if IronMan.heart < 3 and points >= 90:
+                points -= 100
+                IronMan.heart += 1
             points += 10
             hit[0].kill()  # remove the power
+
 
     objects.update()
     score_text = font.render("Score: " + str(points), 1, (255, 255, 255))
