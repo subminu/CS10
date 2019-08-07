@@ -6,13 +6,16 @@ class IronManClass(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load("IronMan_up.png")
         self.state = pygame.image.load("IronMan_state.png")
-        self.thanos = pygame.image.load("Thanos.png")
         self.face = self.state.get_rect()
         self.rect = self.image.get_rect()
         self.face.center = [15,627.5]
         self.rect.center = [320, 540]
         self.angle = 0
         self.heart = 3
+
+    def stamina(self, demage=False):
+        if demage:
+            self.heart -= 1
 
 
     def turn(self, direction):
@@ -34,9 +37,10 @@ class IronManClass(pygame.sprite.Sprite):
         if self.rect.centerx > 620: self.rect.centerx = 620
 
     def proceed(self, speed):
+        global Thanos
         self.face[0] += speed
         if self.face[0] >= 600:
-            self.thanos = pygame.image.load("Thanos_lose.png")
+            Thanos = Thanos_images[-1]
 
 # class for object sprites (meteoroids and power)
 class ObjectClass(pygame.sprite.Sprite):
@@ -81,9 +85,9 @@ def animate(scroll=False):
     objects.draw(screen)
     screen.blit(IronMan.image, IronMan.rect)
     screen.blit(score_text, [10, 10])
-    screen.blit(IronMan.thanos,[600,590])
+    screen.blit(Thanos,[600,590])
     if scroll:
-        IronMan.proceed(4)
+        IronMan.proceed(5)
     screen.blit(IronMan.state, IronMan.face)
     pygame.display.flip()
 
@@ -92,15 +96,17 @@ def animate(scroll=False):
 pygame.init()
 screen = pygame.display.set_mode([640, 640])
 pygame.display.set_caption("Thanos VS IronMan")
-IronMan_images = ["IronMan_up.png", "IronMan_right1.png", "IronMan_right2.png", "IronMan_left2.png", "IronMan_left1.png"]
 clock = pygame.time.Clock()
+font = pygame.font.Font(None, 50)
+IronMan_images = ["IronMan_up.png", "IronMan_right1.png", "IronMan_right2.png", "IronMan_left2.png", "IronMan_left1.png"]
+Thanos_images = [pygame.image.load(x) for x in ["Thanos.png","Thanos_lose.png"]]
+Thanos = Thanos_images[0]
 speed = [0, 10]
 objects = pygame.sprite.Group()  # group of objects
 IronMan = IronManClass()
 map_position = 0
 points = 0
 create_map()  # create one screen full of objects
-font = pygame.font.Font(None, 50)
 scroll = 0
 
 # main Pygame event loop
@@ -144,13 +150,11 @@ while running:
 
     objects.update()
     score_text = font.render("Score: " + str(points), 1, (255, 255, 255))
-    if scroll == 5:
+    if scroll == 1:
         animate(True)
         scroll = 0
     else:
         animate()
         scroll += 1
-
-
 
 pygame.quit()
