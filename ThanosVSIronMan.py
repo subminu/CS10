@@ -92,7 +92,7 @@ def animate(scroll=False):
     screen.blit(score_text, [10, 10])
     screen.blit(Thanos,[600,590])
     if Thanos == Thanos_images[-1]:
-        screen.blit(Thanos,[300,230])
+        screen.blit(Thanos,[305,230])
     if scroll:
         IronMan.proceed(1)
     IronMan.show_stamina()
@@ -103,11 +103,12 @@ def show_game_over(result):
     if result == 'Lose':
         lose_test = font.render("You lose", 3, (255, 255, 255))
         screen.blit(lose_test,[250, 280])
+        screen.blit(Thanos, [305, 230])
     elif result == 'Win':
         win_text = font.render("You Win", 3, (255, 255, 255))
         screen.blit(win_text,[250, 280])
     exit_text = font.render("Click close button to exit", 2, (255, 255, 255))
-    screen.blit(exit_text,[140, 310])
+    screen.blit(exit_text,[110, 310])
     pygame.display.update()
     running = True
     while running:
