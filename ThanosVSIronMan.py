@@ -15,8 +15,8 @@ class IronManClass(pygame.sprite.Sprite):
         self.angle = 0
         self.heart = 3
 
-    def show_stamina(self, demage=False):
-        if demage:
+    def show_stamina(self, damage=False):
+        if damage:
             self.heart -= 1
         for i in range(self.heart):
             screen.blit(IronMan.image_heart,[600-40*i,15])
@@ -39,7 +39,7 @@ class IronManClass(pygame.sprite.Sprite):
         if self.rect.centerx < 20:  self.rect.centerx = 20
         if self.rect.centerx > 620: self.rect.centerx = 620
 
-    def proceed(self, speed):
+    def process(self, speed):
         self.face[0] += speed
         if self.face[0] >= 600:
             global Thanos
@@ -94,11 +94,12 @@ def animate(scroll=False):
     if Thanos == Thanos_images[-1]:
         screen.blit(Thanos,[305,230])
     if scroll:
-        IronMan.proceed(1)
+        IronMan.process(1)
     IronMan.show_stamina()
     screen.blit(IronMan.state, IronMan.face)
     pygame.display.flip()
 
+# show game over text on screen 
 def show_game_over(result):
     if result == 'Lose':
         lose_test = font.render("You lose", 3, (255, 255, 255))
