@@ -104,13 +104,13 @@ def show_game_over(result):
     elif result == 'Win':
         win_text = font.render("You Win", 3, (255, 255, 255))
         screen.blit(win_text,[250, 280])
-    exit_text = font.render("Press any keys to exit", 2, (255, 255, 255))
+    exit_text = font.render("Click close button to exit", 2, (255, 255, 255))
     screen.blit(exit_text,[140, 310])
     pygame.display.update()
     running = True
     while running:
         for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
+            if event.type == 12:
                 running = False
     sys.exit()
 
