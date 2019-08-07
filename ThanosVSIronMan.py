@@ -187,7 +187,7 @@ while running:
 
     objects.update()
     score_text = font.render("Score: " + str(points), 1, (255, 255, 255))
-    if scroll == 4:
+    if scroll == 1:
         animate(True)
         scroll = 0
     else:
