@@ -186,7 +186,6 @@ while running:
             hit[0].kill()
         elif hit[0].type == "power" and not hit[0].passed:  # got a power
             if IronMan.heart < 3 and points >= 90:
-                print("worked")
                 points -= 100
                 IronMan.heart += 1
             points += 10
