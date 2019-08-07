@@ -10,7 +10,7 @@ class IronManClass(pygame.sprite.Sprite):
         self.face = self.state.get_rect()
         self.rect = self.image.get_rect()
         self.rect_heart = self.image_heart.get_rect()
-        self.face.center = [15,627.5]
+        self.face.center = [16,627.5]
         self.rect.center = [320, 540]
         self.angle = 0
         self.heart = 3
@@ -69,14 +69,16 @@ class ObjectClass(pygame.sprite.Sprite):
 # use "blocks" of 64 x 64 pixels, so objects aren't too close together
 def create_map():
     global objects
+    level = (IronMan.face.centerx - 16) // 146 # It makes 4 phases which has different level of difficulty
     locations = []
-    for _i in range(10):  # 10 objects per screen
+    types = ["meteoroid"] * (1+level) + ['power']
+    for _i in range(10 + level):  # Each phase, more objects will place on screen
         row = random.randint(0, 9)
         col = random.randint(0, 9)
         location = [col * 64 + 32 , row * 64 + 32 - 640]  # center x, y for objects
         if not (location in locations):  # prevent 2 objects in the same place
             locations.append(location)
-            type = random.choice(["meteoroid", "meteoroid", "power"]) # Make more meteoroids displayed on screen
+            type = random.choice(types) # Make more meteoroids displayed on screen
             if type == "meteoroid":
                 img = "meteoroid.png"
             elif type == "power":
