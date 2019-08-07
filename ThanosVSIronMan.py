@@ -168,7 +168,7 @@ while running:
             speed = [0, 10]
             hit[0].passed = True
             if points >= 90 :
-                points -= 50
+                points -= 100
             else:
                 IronMan.heart -= 1
             hit[0].kill()
