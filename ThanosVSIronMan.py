@@ -1,4 +1,4 @@
-import pygame, random
+import pygame, random, sys
 
 # class for the IronMan sprite
 class IronManClass(pygame.sprite.Sprite):
@@ -40,10 +40,12 @@ class IronManClass(pygame.sprite.Sprite):
         if self.rect.centerx > 620: self.rect.centerx = 620
 
     def proceed(self, speed):
-        global Thanos
         self.face[0] += speed
         if self.face[0] >= 600:
+            global Thanos
             Thanos = Thanos_images[-1]
+            animate()
+            show_game_over('Win')
 
 # class for object sprites (meteoroids and power)
 class ObjectClass(pygame.sprite.Sprite):
@@ -90,11 +92,27 @@ def animate(scroll=False):
     screen.blit(score_text, [10, 10])
     screen.blit(Thanos,[600,590])
     if scroll:
-        IronMan.proceed(5)
+        IronMan.proceed(1)
     IronMan.show_stamina()
     screen.blit(IronMan.state, IronMan.face)
     pygame.display.flip()
 
+def show_game_over(result):
+    if result == 'Lose':
+        lose_test = font.render("You lose", 3, (255, 255, 255))
+        screen.blit(lose_test,[250, 280])
+    elif result == 'Win':
+        win_text = font.render("You Win", 3, (255, 255, 255))
+        screen.blit(win_text,[250, 280])
+    exit_text = font.render("Press any keys to exit", 2, (255, 255, 255))
+    screen.blit(exit_text,[140, 310])
+    pygame.display.update()
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                running = False
+    sys.exit()
 
 # initialize everything
 pygame.init()
@@ -120,6 +138,7 @@ while running:
     clock.tick(30)
     if IronMan.heart <= 0 :
         running = False
+        show_game_over("Lose")
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -166,5 +185,3 @@ while running:
     else:
         animate()
         scroll += 1
-
-pygame.quit()
