@@ -105,8 +105,8 @@ def animate(scroll=False):
 def show_game_over(result):
     if result == 'Lose':
         lose_test = font.render("You lose", 3, (255, 255, 255))
-        screen.blit(lose_test,[250, 280])
-        screen.blit(Thanos, [305, 230])
+        screen.blit(lose_test,[250, 250])
+        screen.blit(Thanos, [305, 200])
     elif result == 'Win':
         win_text = font.render("You Win", 3, (255, 255, 255))
         screen.blit(win_text,[250, 250])
