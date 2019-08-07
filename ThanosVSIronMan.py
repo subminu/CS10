@@ -71,7 +71,7 @@ def create_map():
     global objects
     level = (IronMan.face.centerx - 16) // 146 # It makes 4 phases which has different level of difficulty
     locations = []
-    types = ["meteoroid"] * (1+level) + ['power']
+    types = ["meteoroid"] * (1+level) + ["power"]
     for _i in range(10 + level):  # Each phase, more objects will place on screen
         row = random.randint(0, 9)
         col = random.randint(0, 9)
