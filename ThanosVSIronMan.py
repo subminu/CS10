@@ -137,7 +137,15 @@ create_map()  # create one screen full of objects
 scroll = 0
 
 # main Pygame event loop
-running = True
+start_text = font.render("press the space bar to start", 2, (255, 255, 255))
+screen.blit(start_text,[110, 310])
+pygame.display.update()
+running = False
+while not running:
+    for event in pygame.event.get():
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                running = True
 while running:
     clock.tick(30)
     if IronMan.heart <= 0 :
