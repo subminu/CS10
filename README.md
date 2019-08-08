@@ -2,7 +2,7 @@ Eunbin Seo, 3035255510, TA Andrew Burke
 
 Minwoo Choi, 3035272150, TA Andrew Burke
 
-# Iron Man VS Thanos
+# <center>Iron Man VS Thanos</center>
 
 ### Preface
 
@@ -53,10 +53,11 @@ If it does not work, try this.
 1. ##### How our project works? (Algorithm)
 
    * Thanos A.I: The basic algorithm is a random attack using a random library. This algorithm does not change even if the phase is changed. but more objects and more meteoroids them will be generated. it makes the difficulty increasingly difficult. There are four levels in total, and the ratio of meteoroid and energy for each phase was divided into 1: 1, 2: 1, 3: 1, 4: 1.
+   * Score system: When Iron Man gets the Arc reactors, the score increases by 10 points. If Iron Man is attacked by Thanos, it is reduced by 50 points. If there are less than three hearts and score is more than 100 points, the heart is automatically filled. For the total score, the hearts are converted to 100 points.
 
 2. ##### What is your purpose of the various lists?
 
-   * List of Iron Man png files ( IronMan_images) :  
+   * List of Iron Man png files ( IronMan_images)
 
      We put Iron Man’s five states on the list. Whenever Iron Man turn and move through direction keys, we have to change Iron Man’s png files. So, we use the list(that is arranged in order of front, right1, right2, left2, left1) to change the  Iron Man’s images. When the right key is pressed, the index increases 1. (When the left key is pressed, the index decreases 1.)
 
@@ -71,6 +72,33 @@ If it does not work, try this.
    * Probability list (types=[“meteoroid”]*(1+level)+[“power”] in “create_map” function)  
 
      The reason why we were able to change the probability of Thanos’ attack was because we used this list.
+
+3. **What is your purpose of the local(or instance) variables?**
+
+   * IronMan.heart
+
+     An instance variable of the Iron Man class, which is an important factor in determining the game's winning or losing.
+
+   * result
+
+     a local variable, which is parameter of *show_game_over(result)*
+
+     If all of the heart(IronMan.heart) is losed after being attacked by the Thanos, the result is to receive the text "Lose" and display the corresponding loss_text on the screen.
+     Conversely, if the heart reaches the Thanos, the result is to receive the text "Win" and display the corresponding win_text on the screen.
+
+   * scroll
+
+     a local variable, which is parameter of *animate(scroll)*
+
+     This parameter(boolean) determines the speed of the Iron Man displayed at the bottom of the game screen. If the value of this variable is true as boolean, run the process function so that the Iron Man at the bottom of the game screen can move.
+
+   * damage
+
+     a local variable, which is parameter of *show_stamina(self,damage)*
+
+     Local variable with boolean value. If the value is true, the IronMan.heart value is reduced to 1 and the number of hearts seen on the game screen is also reduced by one.
+
+     
 
 ## Functions & Thread
 
